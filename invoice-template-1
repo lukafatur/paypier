@@ -98,23 +98,23 @@
             <h1 class="invoice-title">INVOICE</h1>
             
             <div class="company-details">
-                <div>{{ company.name }}</div>
-                <div>{{ company.address_line1 }}</div>
-                <div>{{ company.address_line2 }}</div>
+                <div>{{company.name }}</div>
+                <div>{{company.address_line1}}</div>
+                <div>{{company.address_line2}}</div>
             </div>
 
             <div class="dates">
                 <div class="date-label">DATE</div>
-                <div>{{ invoice.date }}</div>
+                <div>{{ nvoice.date }}</div>
                 <div class="date-label">DUE</div>
                 <div>{{ invoice.due_date }}</div>
             </div>
 
             <div class="bill-to">
                 <div class="bill-to-label">BILL TO</div>
-                <div>{{ client.name }}</div>
-                <div>{{ client.address_line1 }}</div>
-                <div>{{ client.address_line2 }}</div>
+                <div>{{client.name}}</div>
+                <div>{{client.address_line1}}</div>
+                <div>{{client.address_line2}}</div>
             </div>
 
             <div class="payment-options">
