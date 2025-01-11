@@ -13,24 +13,19 @@
             margin: 0 auto;
             background-color: #fff;
         }
-    
-
         .invoice {
             display: grid;
             grid-template-columns: 350px 1fr;
             min-height: 100vh;
             border: 1px solid #ddd;
         }
-
         .left-column {
             padding: 0;
             border-right: 1px solid #ddd;
         }
-
         .right-column {
             padding: 0;
         }
-
         .invoice-title {
             font-size: 2.5em;
             font-weight: 300;
@@ -39,120 +34,59 @@
             border-bottom: 1px solid #ddd;
             padding: 40px;
         }
-
-        .company-details {
+        .company-details, .dates, .bill-to, .payment-options, .contact-info, .project-section {
             margin: 0;
-            border-bottom: 1px solid #ddd;
             padding: 40px;
-        }
-
-        .dates {
-            margin: 0;
             border-bottom: 1px solid #ddd;
-            padding: 40px;
         }
-
-        .date-label {
-            font-weight: 500;
-            margin-top: 20px;
-        }
-
-        .bill-to {
-            margin: 0;
-            border-bottom: 1px solid #ddd;
-            padding: 40px;
-        }
-
-        .bill-to-label {
+        .date-label, .bill-to-label, .payment-label, .project-label {
             font-weight: 500;
             margin-bottom: 10px;
         }
-
-        .payment-options {
-            margin: 0;
-            border-bottom: 1px solid #ddd;
-            padding: 40px;
-        }
-
-        .payment-label {
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-
         .payment-method {
             margin-bottom: 15px;
         }
-
         .payment-details {
             margin-left: 25px;
             color: #666;
         }
-
-        .contact-info {
-            padding: 40px;
-        }
-
-        .project-section {
-            margin: 0;
-            padding: 40px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .project-label {
-            font-weight: 500;
-            margin-bottom: 10px;
-        }
-
         .invoice-table {
             width: 100%;
             border-collapse: collapse;
             margin: 0;
             padding: 40px;
         }
-
         .invoice-table th {
             text-align: left;
             padding: 12px 0;
             border-bottom: 1px solid #ddd;
             font-weight: 500;
         }
-
         .invoice-table td {
             padding: 12px 0;
             border-bottom: 1px solid #ddd;
         }
-
         .amount-column {
             text-align: right;
         }
-
         .totals-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-
         .totals-table td {
             padding: 8px 0;
             border-bottom: 1px solid #ddd;
         }
-
         .totals-table tr:last-child td {
             border-bottom: none;
         }
-
         .total-label {
             text-align: left;
         }
-
         .total-amount {
             text-align: right;
         }
-
-        input[type="checkbox"] {
-            margin-right: 10px;
-        }
-
         .website {
             margin-top: 10px;
         }
@@ -164,23 +98,23 @@
             <h1 class="invoice-title">INVOICE</h1>
             
             <div class="company-details">
-                <div><?= company.name ?></div>
-                <div><?= company.address_line1 ?></div>
-                <div><?= company.address_line2 ?></div>
+                <div>{{ company.name }}</div>
+                <div>{{ company.address_line1 }}</div>
+                <div>{{ company.address_line2 }}</div>
             </div>
 
             <div class="dates">
                 <div class="date-label">DATE</div>
-                <div><?= invoice.date ?></div>
+                <div>{{ invoice.date }}</div>
                 <div class="date-label">DUE</div>
-                <div><?= invoice.due_date ?></div>
+                <div>{{ invoice.due_date }}</div>
             </div>
 
             <div class="bill-to">
                 <div class="bill-to-label">BILL TO</div>
-                <div><?= client.name ?></div>
-                <div><?= client.address_line1 ?></div>
-                <div><?= client.address_line2 ?></div>
+                <div>{{ client.name }}</div>
+                <div>{{ client.address_line1 }}</div>
+                <div>{{ client.address_line2 }}</div>
             </div>
 
             <div class="payment-options">
@@ -189,29 +123,29 @@
                     <input type="checkbox" id="bank">
                     <label for="bank">BANK</label>
                     <div class="payment-details">
-                        <?= payment.bank_details ?>
+                        {{ payment.bank_details }}
                     </div>
                 </div>
                 <div class="payment-method">
                     <input type="checkbox" id="paypal">
                     <label for="paypal">PAYPAL</label>
                     <div class="payment-details">
-                        <?= payment.paypal_email ?>
+                        {{ payment.paypal_email }}
                     </div>
                 </div>
             </div>
 
             <div class="contact-info">
                 <div>CONTACT</div>
-                <div><?= company.email ?></div>
-                <div class="website"><?= company.website ?></div>
+                <div>{{ company.email }}</div>
+                <div class="website">{{ company.website }}</div>
             </div>
         </div>
 
         <div class="right-column">
             <div class="project-section">
                 <div class="project-label">PROJECT</div>
-                <div><?= project.name ?></div>
+                <div>{{ project.name }}</div>
             </div>
 
             <table class="invoice-table">
@@ -222,27 +156,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($invoice.items as $item): ?>
+                    {{#invoice.items}}
                     <tr>
-                        <td><?= item.description ?></td>
-                        <td class="amount-column"><?= item.amount ?></td>
+                        <td>{{ description }}</td>
+                        <td class="amount-column">{{ amount }}</td>
                     </tr>
-                    <?php endforeach; ?>
+                    {{/invoice.items}}
                 </tbody>
             </table>
 
             <table class="totals-table">
                 <tr>
                     <td class="total-label">SUB TOTAL</td>
-                    <td class="total-amount"><?= invoice.subtotal ?></td>
+                    <td class="total-amount">{{ invoice.subtotal }}</td>
                 </tr>
                 <tr>
                     <td class="total-label">TAX</td>
-                    <td class="total-amount"><?= invoice.tax ?></td>
+                    <td class="total-amount">{{ invoice.tax }}</td>
                 </tr>
                 <tr>
                     <td class="total-label">TOTAL</td>
-                    <td class="total-amount"><?= invoice.total ?></td>
+                    <td class="total-amount">{{ invoice.total }}</td>
                 </tr>
             </table>
         </div>
