@@ -158,8 +158,8 @@
                 <tbody>
                     {{#invoice.items}}
                     <tr>
-                        <td>{{ description }}</td>
-                        <td class="amount-column">{{ amount }}</td>
+                        <td>{{description}}</td>
+                        <td class="amount-column">{{amount}}</td>
                     </tr>
                     {{/invoice.items}}
                 </tbody>
