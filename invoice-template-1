@@ -98,16 +98,16 @@
             <h1 class="invoice-title">INVOICE</h1>
             
             <div class="company-details">
-                <div>{{company.name }}</div>
+                <div>{{company.name}}</div>
                 <div>{{company.address_line1}}</div>
                 <div>{{company.address_line2}}</div>
             </div>
 
             <div class="dates">
                 <div class="date-label">DATE</div>
-                <div>{{ nvoice.date }}</div>
+                <div>{{invoice.date}}</div>
                 <div class="date-label">DUE</div>
-                <div>{{ invoice.due_date }}</div>
+                <div>{{invoice.due_date}}</div>
             </div>
 
             <div class="bill-to">
@@ -123,29 +123,29 @@
                     <input type="checkbox" id="bank">
                     <label for="bank">BANK</label>
                     <div class="payment-details">
-                        {{ payment.bank_details }}
+                        {{payment.bank_details}}
                     </div>
                 </div>
                 <div class="payment-method">
                     <input type="checkbox" id="paypal">
                     <label for="paypal">PAYPAL</label>
                     <div class="payment-details">
-                        {{ payment.paypal_email }}
+                        {{payment.paypal_email}}
                     </div>
                 </div>
             </div>
 
             <div class="contact-info">
                 <div>CONTACT</div>
-                <div>{{ company.email }}</div>
-                <div class="website">{{ company.website }}</div>
+                <div>{{company.email}}</div>
+                <div class="website">{{company.website}}</div>
             </div>
         </div>
 
         <div class="right-column">
             <div class="project-section">
                 <div class="project-label">PROJECT</div>
-                <div>{{ project.name }}</div>
+                <div>{{project.name}}</div>
             </div>
 
             <table class="invoice-table">
@@ -168,15 +168,15 @@
             <table class="totals-table">
                 <tr>
                     <td class="total-label">SUB TOTAL</td>
-                    <td class="total-amount">{{ invoice.subtotal }}</td>
+                    <td class="total-amount">{{invoice.subtotal}}</td>
                 </tr>
                 <tr>
                     <td class="total-label">TAX</td>
-                    <td class="total-amount">{{ invoice.tax }}</td>
+                    <td class="total-amount">{{invoice.tax}}</td>
                 </tr>
                 <tr>
                     <td class="total-label">TOTAL</td>
-                    <td class="total-amount">{{ invoice.total }}</td>
+                    <td class="total-amount">{{invoice.total}}</td>
                 </tr>
             </table>
         </div>
