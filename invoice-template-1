@@ -17,7 +17,7 @@
             display: grid;
             grid-template-columns: 350px 1fr;
             min-height: 100vh;
-            border: 1px solid #ddd;
+            /*border: 1px solid #ddd;*/
         }
         .left-column {
             padding: 0;
@@ -75,7 +75,7 @@
         }
         .invoice-table td {
             padding: 12px 20px;
-            border-bottom: 1px solid #ddd;
+            /*border-bottom: 1px solid #ddd;*/
         }
         .amount-column {
             text-align: right;
@@ -116,7 +116,7 @@
             </div>
 
 
-            <div class="total">
+            <div style="padding-top: 20px; padding-bottom: 20px;" class="total">
                 <div class="date-label">DATE</div>
                 <div>{{invoice.date}}</div>
                 <div class="date-label">DUE</div>
@@ -125,7 +125,7 @@
                 <div>{{invoice.total}}</div>
             </div>
 
-            <div class="bill-to">
+            <div style="padding-top: 20px; padding-bottom: 20px;" class="bill-to">
                 <div class="bill-to-label">BILL TO</div>
                 <div>{{client.name}}</div>
                 <div>{{client.address_line1}}</div>
@@ -134,7 +134,7 @@
                 <div>{{company.bank}}</div>
             </div>
 
-            <div class="contact-info">
+            <div style="padding-top: 20px; padding-bottom: 20px;" class="contact-info">
                 <div class="contact-label">CONTACT</div>
                 <div>{{company.email}}</div>
                 <div class="website">{{company.website}}</div>
