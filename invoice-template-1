@@ -30,24 +30,22 @@
     .right-column {
       padding: 0;
     }
-    /* Removed the fixed height so we can place the invoice number below it. */
     .invoice-title {
       font-size: 60px;
       font-weight: 300;
       color: #333;
       margin: 0;
       padding-left: 40px;
-      padding-bottom: 0%; /* A bit of spacing below the title */
+      padding-bottom: 0%;
       text-transform: uppercase;
     }
-    /* The smaller text for the invoice number */
     .invoice-number {
       font-size: 16px;
       font-weight: 400;
       margin-left: 40px;
-      margin-top: -10px; /* Tuck it right under the big title */
+      margin-top: -10px;
       margin-bottom: 20px;
-      border-bottom: 1px solid #ddd; /* Spacing before the next section */
+      border-bottom: 1px solid #ddd;
     }
 
     .company-details, .dates, .total, .bill-to, .payment-options,
@@ -75,7 +73,6 @@
       color: #666;
     }
     .invoice-table {
-      /* Note the width set to calc(100% + 40px) to fill space across the padding area */
       width: calc(100% + 40px);
       border-collapse: collapse;
       margin: 0;
