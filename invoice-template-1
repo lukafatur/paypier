@@ -177,6 +177,11 @@
           <td class="total-amount">{{invoice.total}}</td>
         </tr>
       </table>
+      <div style="padding-top: 20px; padding-bottom: 20px;" class="contact-info">
+        <div>{{invoice.comment}}</div>
+        <div class="website">{{company.comment}}</div>
+      </div>
+
     </div>
   </div>
 </body>
