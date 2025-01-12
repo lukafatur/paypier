@@ -106,7 +106,7 @@
 <body>
   <div class="invoice">
     <div class="left-column">
-      <h1 class="invoice-title">INVOICE</h1>
+      <h1 style="text-transform: uppercase;" class="invoice-title">{{invoice.type}}</h1>
       
       <div style="height: 150px;" class="company-details">
         <div style="text-transform: uppercase;">{{company.name}}</div>
