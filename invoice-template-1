@@ -21,6 +21,7 @@
       display: grid;
       grid-template-columns: 300px 1fr;
       min-height: 100vh;
+      padding-right: 40px;
     }
     .left-column {
       padding: 0;
@@ -29,15 +30,26 @@
     .right-column {
       padding: 0;
     }
+    /* Removed the fixed height so we can place the invoice number below it. */
     .invoice-title {
       font-size: 60px;
       font-weight: 300;
       color: #333;
       margin: 0;
-      border-bottom: 1px solid #ddd;
-      height: 100px;
       padding-left: 40px;
+      padding-bottom: 0%; /* A bit of spacing below the title */
+      text-transform: uppercase;
     }
+    /* The smaller text for the invoice number */
+    .invoice-number {
+      font-size: 16px;
+      font-weight: 400;
+      margin-left: 40px;
+      margin-top: -10px; /* Tuck it right under the big title */
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ddd; /* Spacing before the next section */
+    }
+
     .company-details, .dates, .total, .bill-to, .payment-options,
     .contact-info, .project-section {
       margin: 0;
@@ -63,7 +75,8 @@
       color: #666;
     }
     .invoice-table {
-      width: 100%;
+      /* Note the width set to calc(100% + 40px) to fill space across the padding area */
+      width: calc(100% + 40px);
       border-collapse: collapse;
       margin: 0;
       padding: 40px;
@@ -76,7 +89,7 @@
     }
     .invoice-table tbody td {
       padding: 12px 20px;
-      border-right: 1px dotted #ddd; 
+      border-right: 1px dotted #ddd;
     }
     .invoice-table tbody td:last-child {
       border-right: none;
@@ -117,7 +130,10 @@
 <body>
   <div class="invoice">
     <div class="left-column">
-      <h1 style="text-transform: uppercase;" class="invoice-title">{{invoice.type}}</h1>
+       <!-- Invoice title -->
+       <h1 class="invoice-title">{{invoice.type}}</h1>
+       <!-- Smaller text for invoice number -->
+       <div class="invoice-number">{{invoice.number}}</div>
       
       <div style="height: 150px;" class="company-details">
         <div style="text-transform: uppercase;">{{company.name}}</div>
@@ -188,7 +204,7 @@
           <td class="total-amount">{{invoice.total}}</td>
         </tr>
       </table>
-      <div style="padding-top: 20px; padding-bottom: 20px; font-size: x-small;" class="contact-info">
+      <div style="padding-top: 20px; padding-bottom: 20px; font-size: xx-small;" class="contact-info">
         <div>{{invoice.comment}}</div>
         <div>{{company.comment}}</div>
       </div>
