@@ -168,7 +168,7 @@
     </div>
 
     <div class="right-column">
-      <div class="invoice-title"></div>
+      <div style="height: 150px;"></div>
       
       <table class="invoice-table">
         <thead>
