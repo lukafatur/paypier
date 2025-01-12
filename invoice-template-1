@@ -1,188 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Template</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: #fff;
-        }
-        .invoice {
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            min-height: 100vh;
-        }
-        .left-column {
-            padding: 0;
-            border-right: 1px solid #ddd;
-        }
-        .right-column {
-            padding: 0;
-        }
-        .invoice-title {
-            font-size: 70px;
-            font-weight: 300;
-            color: #333;
-            margin: 0;
-            border-bottom: 1px solid #ddd;
-            height: 100px;
-            padding-left: 40px;
-        }
-        .company-details, .dates, .total, .bill-to, .payment-options,
-        .contact-info, .project-section {
-            margin: 0;
-            border-bottom: 1px solid #ddd;
-            padding-left: 40px;
-        }
-        .company-details {
-            display: flex;
-            flex-direction: column;
-            align-items: left;
-            justify-content: center;
-            row-gap: 5px;
-        }
-        .date-label, .bill-to-label, .payment-label, .project-label, .contact-label {
-            font-weight: 500;
-            margin-top: 10px;
-        }
-        .payment-method {
-            margin-bottom: 15px;
-        }
-        .payment-details {
-            margin-left: 25px;
-            color: #666;
-        }
-        .invoice-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 0;
-            padding: 40px;
-        }
-        /* Dotted line between columns */
-        .invoice-table th,
-        .invoice-table td {
-            border-right: 1px dotted #ddd;
-        }
-        .invoice-table th:last-child,
-        .invoice-table td:last-child {
-            border-right: none;
-        }
-
-        .invoice-table th {
-            text-align: left;
-            padding: 12px 20px;
-            border-bottom: 1px solid #ddd;
-            font-weight: 500;
-        }
-        .invoice-table td {
-            padding: 12px 20px;
-        }
-        .amount-column {
-            text-align: right;
-        }
-        .totals-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        .totals-table td {
-            padding: 8px 20px;
-            border-bottom: 1px solid #ddd;
-        }
-        .totals-table tr:last-child td {
-            border-bottom: none;
-        }
-        .total-label {
-            text-align: left;
-        }
-        .total-amount {
-            text-align: right;
-        }
-        .website {
-            margin-top: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Invoice Template</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: #fff;
+    }
+    .invoice {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      min-height: 100vh;
+    }
+    .left-column {
+      padding: 0;
+      border-right: 1px solid #ddd;
+    }
+    .right-column {
+      padding: 0;
+    }
+    .invoice-title {
+      font-size: 70px;
+      font-weight: 300;
+      color: #333;
+      margin: 0;
+      border-bottom: 1px solid #ddd;
+      height: 100px;
+      padding-left: 40px;
+    }
+    .company-details, .dates, .total, .bill-to, .payment-options,
+    .contact-info, .project-section {
+      margin: 0;
+      border-bottom: 1px solid #ddd;
+      padding-left: 40px;
+    }
+    .company-details {
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      justify-content: center;
+      row-gap: 5px;
+    }
+    .date-label, .bill-to-label, .payment-label, .project-label, .contact-label {
+      font-weight: 500;
+      margin-top: 10px;
+    }
+    .payment-method {
+      margin-bottom: 15px;
+    }
+    .payment-details {
+      margin-left: 25px;
+      color: #666;
+    }
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0;
+      padding: 40px;
+    }
+    /* No dotted lines in the header cells */
+    .invoice-table thead th {
+      text-align: left;
+      padding: 12px 20px;
+      border-bottom: 1px solid #ddd;
+      font-weight: 500;
+    }
+    /* Dotted lines only in the body cells */
+    .invoice-table tbody td {
+      padding: 12px 20px;
+      border-right: 1px dotted #ddd; /* Dotted line between columns */
+    }
+    /* Remove the dotted border on the last column */
+    .invoice-table tbody td:last-child {
+      border-right: none;
+    }
+    .amount-column {
+      text-align: right;
+    }
+    .totals-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .totals-table td {
+      padding: 8px 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    .totals-table tr:last-child td {
+      border-bottom: none;
+    }
+    .total-label {
+      text-align: left;
+    }
+    .total-amount {
+      text-align: right;
+    }
+    .website {
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-    <div class="invoice">
-        <div class="left-column">
-            <h1 class="invoice-title">INVOICE</h1>
-            
-            <div style="height: 150px;" class="company-details">
-                <div style="text-transform: uppercase;">{{company.name}}</div>
-                <div>{{company.address_line1}}</div>
-                <div>{{company.address_line2}}</div>
-            </div>
+  <div class="invoice">
+    <div class="left-column">
+      <h1 class="invoice-title">INVOICE</h1>
+      
+      <div style="height: 150px;" class="company-details">
+        <div style="text-transform: uppercase;">{{company.name}}</div>
+        <div>{{company.address_line1}}</div>
+        <div>{{company.address_line2}}</div>
+      </div>
 
-            <div style="padding-top: 20px; padding-bottom: 20px;" class="total">
-                <div class="date-label">DATE</div>
-                <div>{{invoice.date}}</div>
-                <div class="date-label">DUE</div>
-                <div>{{invoice.due_date}}</div>
-                <div class="date-label">TOTAL</div>
-                <div>{{invoice.total}}</div>
-            </div>
+      <div style="padding-top: 20px; padding-bottom: 20px;" class="total">
+        <div class="date-label">DATE</div>
+        <div>{{invoice.date}}</div>
+        <div class="date-label">DUE</div>
+        <div>{{invoice.due_date}}</div>
+        <div class="date-label">TOTAL</div>
+        <div>{{invoice.total}}</div>
+      </div>
 
-            <div style="padding-top: 20px; padding-bottom: 20px;" class="bill-to">
-                <div class="bill-to-label">BILL TO</div>
-                <div>{{client.name}}</div>
-                <div>{{client.address_line1}}</div>
-                <div>{{client.address_line2}}</div>
-                <div class="payment-label">PAYMENT DETAILS</div>
-                <div>{{company.bank}}</div>
-            </div>
+      <div style="padding-top: 20px; padding-bottom: 20px;" class="bill-to">
+        <div class="bill-to-label">BILL TO</div>
+        <div>{{client.name}}</div>
+        <div>{{client.address_line1}}</div>
+        <div>{{client.address_line2}}</div>
+        <div class="payment-label">PAYMENT DETAILS</div>
+        <div>{{company.bank}}</div>
+      </div>
 
-            <div style="padding-top: 20px; padding-bottom: 20px;" class="contact-info">
-                <div class="contact-label">CONTACT</div>
-                <div>{{company.email}}</div>
-                <div class="website">{{company.website}}</div>
-            </div>
-        </div>
-
-        <div class="right-column">
-            <div class="invoice-title"></div>
-            <table class="invoice-table">
-                <thead>
-                    <tr style="height: 150px; vertical-align: bottom;">
-                        <th>DESCRIPTION</th>
-                        <th class="price-column">PRICE</th>
-                        <th class="qty-column">QTY</th>
-                        <th class="amount-column">AMOUNT</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#invoice.items}}
-                    <tr>
-                        <td>{{description}}</td>
-                        <td>{{price}}</td>
-                        <td class="qty-column">{{qty}}</td>
-                        <td>{{amount}}</td>
-                    </tr>
-                    {{/invoice.items}}
-                </tbody>
-            </table>
-
-            <table class="totals-table">
-                <tr>
-                    <td class="total-label">SUB TOTAL</td>
-                    <td class="total-amount">{{invoice.subtotal}}</td>
-                </tr>
-                <tr>
-                    <td class="total-label">TAX</td>
-                    <td class="total-amount">{{invoice.tax}}</td>
-                </tr>
-                <tr>
-                    <td class="total-label">TOTAL</td>
-                    <td class="total-amount">{{invoice.total}}</td>
-                </tr>
-            </table>
-        </div>
+      <div style="padding-top: 20px; padding-bottom: 20px;" class="contact-info">
+        <div class="contact-label">CONTACT</div>
+        <div>{{company.email}}</div>
+        <div class="website">{{company.website}}</div>
+      </div>
     </div>
+
+    <div class="right-column">
+      <div class="invoice-title"></div>
+      
+      <table class="invoice-table">
+        <thead>
+          <tr style="height: 150px; vertical-align: bottom;">
+            <th>DESCRIPTION</th>
+            <th class="price-column">PRICE</th>
+            <th class="qty-column">QTY</th>
+            <th class="amount-column">AMOUNT</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#invoice.items}}
+          <tr>
+            <td>{{description}}</td>
+            <td>{{price}}</td>
+            <td class="qty-column">{{qty}}</td>
+            <td>{{amount}}</td>
+          </tr>
+          {{/invoice.items}}
+        </tbody>
+      </table>
+
+      <table class="totals-table">
+        <tr>
+          <td class="total-label">SUB TOTAL</td>
+          <td class="total-amount">{{invoice.subtotal}}</td>
+        </tr>
+        <tr>
+          <td class="total-label">TAX</td>
+          <td class="total-amount">{{invoice.tax}}</td>
+        </tr>
+        <tr>
+          <td class="total-label">TOTAL</td>
+          <td class="total-amount">{{invoice.total}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </body>
 </html>
