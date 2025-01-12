@@ -27,21 +27,32 @@
             padding: 0;
         }
         .invoice-title {
-            font-size: 2.5em;
+            font-size: 70px;
             font-weight: 300;
             color: #333;
             margin: 0;
             border-bottom: 1px solid #ddd;
-            padding: 40px;
+            height:100px;
+            padding-left: 40px;
+
         }
-        .company-details, .dates, .bill-to, .payment-options, .contact-info, .project-section {
+        .company-details, .dates, .total, .bill-to, .payment-options, .contact-info, .project-section {
             margin: 0;
-            padding: 40px;
             border-bottom: 1px solid #ddd;
+            padding-left: 40px;
         }
-        .date-label, .bill-to-label, .payment-label, .project-label {
+        .company-details{
+            padding-left: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items:left;
+            justify-content: center;
+
+            row-gap: 5px;
+        }
+        .date-label, .bill-to-label, .payment-label, .project-label, .contact-label {
             font-weight: 500;
-            margin-bottom: 10px;
+            margin-top: 10px;
         }
         .payment-method {
             margin-bottom: 15px;
@@ -58,12 +69,12 @@
         }
         .invoice-table th {
             text-align: left;
-            padding: 12px 0;
+            padding: 12px 20px;
             border-bottom: 1px solid #ddd;
             font-weight: 500;
         }
         .invoice-table td {
-            padding: 12px 0;
+            padding: 12px 20px;
             border-bottom: 1px solid #ddd;
         }
         .amount-column {
@@ -75,7 +86,7 @@
             margin-top: 20px;
         }
         .totals-table td {
-            padding: 8px 0;
+            padding: 8px 20px;
             border-bottom: 1px solid #ddd;
         }
         .totals-table tr:last-child td {
@@ -97,17 +108,21 @@
         <div class="left-column">
             <h1 class="invoice-title">INVOICE</h1>
             
-            <div class="company-details">
-                <div>{{company.name}}</div>
+            <div style="height: 150px;" class="company-details">
+                <div style="text-transform: uppercase;">{{company.name}}</div>
                 <div>{{company.address_line1}}</div>
                 <div>{{company.address_line2}}</div>
+                
             </div>
 
-            <div class="dates">
+
+            <div class="total">
                 <div class="date-label">DATE</div>
                 <div>{{invoice.date}}</div>
                 <div class="date-label">DUE</div>
                 <div>{{invoice.due_date}}</div>
+                <div class="date-label">TOTAL</div>
+                <div>{{invoice.total}}</div>
             </div>
 
             <div class="bill-to">
@@ -115,43 +130,27 @@
                 <div>{{client.name}}</div>
                 <div>{{client.address_line1}}</div>
                 <div>{{client.address_line2}}</div>
-            </div>
-
-            <div class="payment-options">
-                <div class="payment-label">PAYMENT OPTIONS</div>
-                <div class="payment-method">
-                    <input type="checkbox" id="bank">
-                    <label for="bank">BANK</label>
-                    <div class="payment-details">
-                        {{payment.bank_details}}
-                    </div>
-                </div>
-                <div class="payment-method">
-                    <input type="checkbox" id="paypal">
-                    <label for="paypal">PAYPAL</label>
-                    <div class="payment-details">
-                        {{payment.paypal_email}}
-                    </div>
-                </div>
+                <div class="payment-label">PAYMENT DETAILS</div>
+                <div>{{company.bank}}</div>
             </div>
 
             <div class="contact-info">
-                <div>CONTACT</div>
+                <div class="contact-label">CONTACT</div>
                 <div>{{company.email}}</div>
                 <div class="website">{{company.website}}</div>
             </div>
         </div>
 
         <div class="right-column">
-            <div class="project-section">
-                <div class="project-label">PROJECT</div>
-                <div>{{project.name}}</div>
+            <div class="invoice-title">
             </div>
 
             <table class="invoice-table">
                 <thead>
-                    <tr>
+                    <tr style="height: 150px;">
                         <th>DESCRIPTION</th>
+                        <th class="price-column">PRICE</th>
+                        <th class="qty-column">QTY</th>
                         <th class="amount-column">AMOUNT</th>
                     </tr>
                 </thead>
@@ -159,7 +158,9 @@
                     {{#invoice.items}}
                     <tr>
                         <td>{{description}}</td>
-                        <td class="amount-column">{{amount}}</td>
+                        <td>{{price}}</td>
+                        <td class="qty-column">{{qty}}</td>
+                        <td>{{amount}}</td>
                     </tr>
                     {{/invoice.items}}
                 </tbody>
