@@ -130,11 +130,12 @@
 <body>
   <div class="invoice">
     <div class="left-column">
+        <div style="height: 150px;">
        <!-- Invoice title -->
        <h1 class="invoice-title">{{invoice.type}}</h1>
        <!-- Smaller text for invoice number -->
        <div class="invoice-number">{{invoice.number}}</div>
-      
+        </div>
       <div style="height: 150px;" class="company-details">
         <div style="text-transform: uppercase;">{{company.name}}</div>
         <div>{{company.address_line1}}</div>
