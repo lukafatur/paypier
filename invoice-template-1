@@ -17,7 +17,6 @@
             display: grid;
             grid-template-columns: 350px 1fr;
             min-height: 100vh;
-            /*border: 1px solid #ddd;*/
         }
         .left-column {
             padding: 0;
@@ -32,22 +31,20 @@
             color: #333;
             margin: 0;
             border-bottom: 1px solid #ddd;
-            height:100px;
+            height: 100px;
             padding-left: 40px;
-
         }
-        .company-details, .dates, .total, .bill-to, .payment-options, .contact-info, .project-section {
+        .company-details, .dates, .total, .bill-to, .payment-options,
+        .contact-info, .project-section {
             margin: 0;
             border-bottom: 1px solid #ddd;
             padding-left: 40px;
         }
-        .company-details{
-            padding-left: 40px;
+        .company-details {
             display: flex;
             flex-direction: column;
-            align-items:left;
+            align-items: left;
             justify-content: center;
-
             row-gap: 5px;
         }
         .date-label, .bill-to-label, .payment-label, .project-label, .contact-label {
@@ -67,6 +64,16 @@
             margin: 0;
             padding: 40px;
         }
+        /* Dotted line between columns */
+        .invoice-table th,
+        .invoice-table td {
+            border-right: 1px dotted #ddd;
+        }
+        .invoice-table th:last-child,
+        .invoice-table td:last-child {
+            border-right: none;
+        }
+
         .invoice-table th {
             text-align: left;
             padding: 12px 20px;
@@ -75,7 +82,6 @@
         }
         .invoice-table td {
             padding: 12px 20px;
-            /*border-bottom: 1px solid #ddd;*/
         }
         .amount-column {
             text-align: right;
@@ -112,9 +118,7 @@
                 <div style="text-transform: uppercase;">{{company.name}}</div>
                 <div>{{company.address_line1}}</div>
                 <div>{{company.address_line2}}</div>
-                
             </div>
-
 
             <div style="padding-top: 20px; padding-bottom: 20px;" class="total">
                 <div class="date-label">DATE</div>
@@ -142,9 +146,7 @@
         </div>
 
         <div class="right-column">
-            <div class="invoice-title">
-            </div>
-
+            <div class="invoice-title"></div>
             <table class="invoice-table">
                 <thead>
                     <tr style="height: 150px; vertical-align: bottom;">
