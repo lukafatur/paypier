@@ -147,7 +147,7 @@
 
             <table class="invoice-table">
                 <thead>
-                    <tr style="height: 150px;">
+                    <tr style="height: 150px; vertical-align: bottom;">
                         <th>DESCRIPTION</th>
                         <th class="price-column">PRICE</th>
                         <th class="qty-column">QTY</th>
