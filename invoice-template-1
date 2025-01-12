@@ -71,12 +71,10 @@
       border-bottom: 1px solid #ddd;
       font-weight: 500;
     }
-    /* Dotted lines only in the body cells */
     .invoice-table tbody td {
       padding: 12px 20px;
-      border-right: 1px dotted #ddd; /* Dotted line between columns */
+      border-right: 1px dotted #ddd; 
     }
-    /* Remove the dotted border on the last column */
     .invoice-table tbody td:last-child {
       border-right: none;
     }
