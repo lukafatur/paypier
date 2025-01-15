@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --invoice-blue: #1a237e;
+            --bg-color: #f8f6f3;
+            --text-color: var(--invoice-blue);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
+        .invoice-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 297mm;
+            width: 210mm;
+            margin: 0 auto;
+            background: var(--bg-color);
+        }
+
+        .sidebar {
+            padding: 2rem;
+            border-right: 1px solid var(--text-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .invoice-number {
+            font-size: 2.5rem;
+            font-weight: 500;
+        }
+
+        .company-name {
+            font-size: 2rem;
+            margin-top: auto;
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            text-align: right;
+            padding: 2rem 0;
+        }
+
+        .main-content {
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4rem;
+        }
+
+        .billed-to {
+            margin-bottom: 2rem;
+        }
+
+        .due-date {
+            text-align: right;
+        }
+
+        .due-date-highlight {
+            background: var(--invoice-blue);
+            color: white;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .invoice-items {
+            margin: 3rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            border-bottom: 1px solid var(--text-color);
+            padding: 1rem 0;
+        }
+
+        td {
+            padding: 1rem 0;
+        }
+
+        .total-row {
+            border-top: 1px solid var(--text-color);
+            font-weight: 500;
+        }
+
+        .payment-info {
+            margin-top: 4rem;
+        }
+
+        .section-title {
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .questions {
+            margin-top: 2rem;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <aside class="sidebar">
+            <div class="invoice-number">#{{invoice.number}}</div>
+            <div class="company-name">{{company.name}}</div>
+        </aside>
+
+        <main class="main-content">
+            <div class="header">
+                <div class="billed-to">
+                    <h2 class="section-title">BILLED TO:</h2>
+                    <div>{{client.name}}</div>
+                    <div>{{client.address_line1}}</div>
+                    <div>{{client.address_line2}}</div>
+                </div>
+                <div class="due-date">
+                    <div>Due date: {{invoice.due_date}}</div>
+                    <div class="due-date-highlight">Due date: {{invoice.due_date}}</div>
+                </div>
+            </div>
+
+            <div class="invoice-items">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DESCRIPTION</th>
+                            <th>QTY</th>
+                            <th>PRICE</th>
+                            <th class="text-right">SUBTOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#invoice.items}}
+                        <tr>
+                            <td>{{description}}</td>
+                            <td>{{qty}}</td>
+                            <td>{{price}}€</td>
+                            <td class="text-right">{{amount}}€</td>
+                        </tr>
+                        {{/invoice.items}}
+                        <tr class="total-row">
+                            <td colspan="3">TOTAL</td>
+                            <td class="text-right">{{invoice.total}}€</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="payment-info">
+                <h2 class="section-title">PAYMENTS</h2>
+                <div>{{company.bank_name}}</div>
+                <div>IBAN: {{company.iban}}</div>
+
+                <div class="questions">
+                    <h2 class="section-title">QUESTIONS?</h2>
+                    <div>Email me at</div>
+                    <div>{{company.email}}</div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
