@@ -167,12 +167,16 @@
             align-items: center;
             width: 100%;
         }
+
+        .comment {
+            font-size: 9px;
+        }
     </style>
 </head>
 <body>
     <div class="page">
         <div class="left-side">
-            <div class="rotated-text">#{{invoice.number}}</div>
+            <div class="rotated-text">{{invoice.number}}</div>
             <div class="rotated-text">{{invoice.type}}</div>
         </div>
         <div class="right-side">
@@ -240,7 +244,7 @@
                     </div>
                 </div>
                 <div class="wrapper">
-                    <div class="content">
+                    <div class="content comment ">
                         <p>{{invoice.comment}}</p>
                         <p>{{company.comment}}</p>
                     </div>
