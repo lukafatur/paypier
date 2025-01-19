@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>A4 Document</title>
     <style>
-        /* A4 size styling */
         body {
             margin: 0;
             padding: 0;
@@ -18,10 +17,9 @@
             margin: 10mm auto;
             background-color: #EEE8DC;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            display: flex; /* Added for split layout */
+            display: flex;
         }
 
-        /* Split layout styling */
         .left-side {
             width: 150px;
             min-width: 150px;
@@ -40,8 +38,6 @@
         }
 
         .top-row {
-            /*height: 200px;
-            min-height: 200px;*/
             border-bottom: 1px solid #10207E;
             padding-top: 100px;
             padding-bottom: 40px;
@@ -50,8 +46,7 @@
         }
 
         .middle-row {
-            flex: 1; /* Takes remaining space */
-            /*border-bottom: 1px solid #10207E;*/
+            flex: 1;
         }
 
         .bottom-row {
@@ -65,36 +60,22 @@
             white-space: nowrap;
             text-align: center;
             font-size: 60px;
-            width: 150px; /* Match parent width */
+            width: 150px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #10207E;
         }
 
-        
-
-        /* Print settings */
         @media print {
-            body {
-                background: none;
-            }
-            .page {
-                margin: 0;
-                box-shadow: none;
-            }
-            @page {
-                size: A4;
-                margin: 0;
-            }
+            body { background: none; }
+            .page { margin: 0; box-shadow: none; }
+            @page { size: A4; margin: 0; }
         }
 
-        /* Content styling */
         .content {
-            
             color: #10207E;
             line-height: 16px;
-            /* Your content styles here */
         }
 
         h1 {
@@ -103,6 +84,7 @@
             margin-top: 0;
             margin-bottom: 10px;
         }
+
         p {
             font-size: 14px;
             color: #10207E;
@@ -115,7 +97,6 @@
             margin-bottom: 5px;
         }
 
-        /* Add this to your existing styles */
         .due-date {
             background-color: #10207E;
             color: white;
@@ -125,7 +106,6 @@
             display: inline-block;
         }
 
-        /* Add these table styles to your existing CSS */
         .invoice-table {
             width: 100%;
             border-collapse: collapse;
@@ -150,14 +130,13 @@
             border-bottom: 1px solid #10207E;
         }
 
-        /* Right-align number columns */
         .invoice-table .number-column {
             text-align: right;
         }
 
         .wrapper {
             width: 75%;
-            margin: 0 auto; /* Center the content */
+            margin: 0 auto;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -166,15 +145,15 @@
 
         .wrapper-2 {
             width: 75%;
-            margin: 0 auto; /* Center the content */
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
         }
+
         .wrapper-3 {
-           
-            margin: 0 12.5%; /* Center the content */
+            margin: 0 12.5%;
             display: flex;
             flex-direction: row;
             gap: 100px;
@@ -193,49 +172,58 @@
 <body>
     <div class="page">
         <div class="left-side">
-            <div class="rotated-text">#25-01</div>
-            <div class="rotated-text">invoice</div>
+            <div class="rotated-text">{{invoice.number}}</div>
+            <div class="rotated-text">{{invoice.type}}</div>
         </div>
         <div class="right-side">
             <div class="top-row">
                 <div class="wrapper">
                     <div class="content">
                          <h1>BILLED TO</h1>
-                         <p class="important">Title</p>
-                         <p class="important">Address</p>
-                         <p class="important">City, State, Zip</p>
+                         <p class="important">{{client.name}}</p>
+                         <p class="important">{{client.address_line1}}</p>
+                         <p class="important">{{client.address_line2}}</p>
                     </div>
                 
                     <div class="content">
-                        <p class="important">Invoice Date: 12/12/2024</p>
-                        <p class="important due-date">Due date: 20/12/2024</p>
+                        <p class="important">Invoice Date: {{invoice.date}}</p>
+                        <p class="important due-date">Due date: {{invoice.due_date}}</p>
                     </div>
                 </div>
-                <!-- Top content -->
             </div>
             <div class="middle-row">
                 <div class="wrapper-2">
                     <table class="invoice-table">
                         <thead>
                             <tr>
-                            <th style="width: 50%">Description</th>
-                            <th class="number-column">Qty</th>
-                            <th class="number-column">Price</th>
-                            <th class="number-column">Subtotal</th>
+                                <th style="width: 50%">Description</th>
+                                <th class="number-column">Qty</th>
+                                <th class="number-column">Price</th>
+                                <th class="number-column">Amount</th>
                             </tr>
                         </thead>
                         <tbody>
-                             <tr>
-                            <td>description</td>
-                            <td class="number-column">100</td>
-                            <td class="number-column">23€</td>
-                            <td class="number-column">2300€</td>
+                            {{#invoice.items}}
+                            <tr>
+                                <td>{{description}}</td>
+                                <td class="number-column">{{qty}}</td>
+                                <td class="number-column">{{price}}</td>
+                                <td class="number-column">{{amount}}</td>
                             </tr>
+                            {{/invoice.items}}
                         </tbody>
                     </table>
                     <div class="total-row">
+                        <h1>Subtotal</h1>
+                        <h1>{{invoice.subtotal}}</h1>
+                    </div>
+                    <div class="total-row">
+                        <h1>Tax</h1>
+                        <h1>{{invoice.tax}}</h1>
+                    </div>
+                    <div class="total-row">
                         <h1>Total</h1>
-                        <h1>2300€</h1>
+                        <h1>{{invoice.total}}</h1>
                     </div>
                 </div>
             </div>
@@ -243,26 +231,26 @@
                 <div class="wrapper-3" style="margin-bottom: 50px;">
                     <div class="content">
                          <h1>PAYMENTS</h1>
-                         <p>Luka Fatur</p>
-                         <p>Address</p>
-                         <p>City, State, Zip</p>
-                         <p>IBAN: 1234567890</p>
-                    </div>
-                
-                    <div class="content">
-                    <p>IBAN: 123 4567 678</p>
-                        <p>BIC: hsaje</p>
+                         <p>{{company.name}}</p>
+                         <p>{{company.address_line1}}</p>
+                         <p>{{company.address_line2}}</p>
+                         <p>{{company.bank}}</p>
                     </div>
                 </div>
                 <div class="wrapper">
                     <div class="content">
                          <h1>QUESTIONS?</h1>
                          <p>Email me at</p>
-                         <p><strong>luka.fatur@gmail.com</strong></p>
-                   
+                         <p><strong>{{company.email}}</strong></p>
+                         <p>{{company.website}}</p>
                     </div>
                 </div>
-                </div><!-- Bottom content -->
+                <div class="wrapper">
+                    <div class="content">
+                        <p>{{invoice.comment}}</p>
+                        <p>{{company.comment}}</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
