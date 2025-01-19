@@ -172,7 +172,7 @@
 <body>
     <div class="page">
         <div class="left-side">
-            <div class="rotated-text">{{invoice.number}}</div>
+            <div class="rotated-text">#{{invoice.number}}</div>
             <div class="rotated-text">{{invoice.type}}</div>
         </div>
         <div class="right-side">
@@ -214,14 +214,6 @@
                         </tbody>
                     </table>
                     <div class="total-row">
-                        <h1>Subtotal</h1>
-                        <h1>{{invoice.subtotal}}</h1>
-                    </div>
-                    <div class="total-row">
-                        <h1>Tax</h1>
-                        <h1>{{invoice.tax}}</h1>
-                    </div>
-                    <div class="total-row">
                         <h1>Total</h1>
                         <h1>{{invoice.total}}</h1>
                     </div>
@@ -234,7 +226,9 @@
                          <p>{{company.name}}</p>
                          <p>{{company.address_line1}}</p>
                          <p>{{company.address_line2}}</p>
-                         <p>{{company.bank}}</p>
+                    </div>
+                    <div class="content">
+                        <p>{{company.bank}}</p>
                     </div>
                 </div>
                 <div class="wrapper">
@@ -242,7 +236,7 @@
                          <h1>QUESTIONS?</h1>
                          <p>Email me at</p>
                          <p><strong>{{company.email}}</strong></p>
-                         <p>{{company.website}}</p>
+                        
                     </div>
                 </div>
                 <div class="wrapper">
