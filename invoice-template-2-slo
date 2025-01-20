@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>A4 Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #FAFAFA;
+            font-family: poppins;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            margin: 10mm auto;
+            background-color: #EEE8DC;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+        }
+
+        .left-side {
+            width: 150px;
+            min-width: 150px;
+            border-right: 1px solid #10207E;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 150px 0;
+        }
+
+        .right-side {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-row {
+            border-bottom: 1px solid #10207E;
+            padding-top: 100px;
+            padding-bottom: 40px;
+            display: flex;
+            column-gap: 100px;
+        }
+
+        .middle-row {
+            flex: 1;
+        }
+
+        .bottom-row {
+            /*height: 250px;*/
+            min-height: 250px;
+        }
+
+        .rotated-text {
+            transform: rotate(-90deg);
+            transform-origin: center center;
+            white-space: nowrap;
+            text-align: center;
+            font-size: 60px;
+            width: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #10207E;
+        }
+
+        @media print {
+            body { background: none; }
+            .page { margin: 0; box-shadow: none; }
+            @page { size: A4; margin: 0; }
+        }
+
+        .content {
+            color: #10207E;
+            line-height: 16px;
+        }
+
+        h1 {
+            font-size: 20px;
+            color: #10207E;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #10207E;
+            line-height: 16px;
+            margin: 0;
+        }
+
+        .important {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .due-date {
+            background-color: #10207E;
+            color: white;
+            padding: 10px 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            color: #10207E;
+        }
+
+        .invoice-table th {
+            text-align: left;
+            padding: 15px 10px;
+            border-bottom: 1px solid #10207E;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .invoice-table td {
+            padding: 15px 10px;
+            font-size: 14px;
+        }
+
+        .invoice-table tbody tr:last-child td {
+            border-bottom: 1px solid #10207E;
+        }
+
+        .invoice-table .number-column {
+            text-align: right;
+        }
+
+        .wrapper {
+            width: 75%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wrapper-2 {
+            width: 75%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wrapper-3 {
+            margin: 0 12.5%;
+            display: flex;
+            flex-direction: row;
+            gap: 100px;
+            align-items: flex-end;
+        }
+
+        .total-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .comment {
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="left-side">
+            <div class="rotated-text">#{{invoice.number}}</div>
+            <div class="rotated-text">{{invoice.type}}</div>
+        </div>
+        <div class="right-side">
+            <div class="top-row">
+                <div class="wrapper">
+                    <div class="content">
+                         <h1>BILLED TO</h1>
+                         <p class="important">{{client.name}}</p>
+                         <p class="important">{{client.address_line1}}</p>
+                         <p class="important">{{client.address_line2}}</p>
+                    </div>
+                
+                    <div class="content">
+                        <p class="important">Datum računa: {{invoice.date}}</p>
+                        <p class="important due-date">Veljavno do: {{invoice.due_date}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="middle-row">
+                <div class="wrapper-2">
+                    <table class="invoice-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50%">Opis</th>
+                                <th class="number-column">Količina</th>
+                                <th class="number-column">Cena</th>
+                                <th class="number-column">Znesek</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#invoice.items}}
+                            <tr>
+                                <td>{{description}}</td>
+                                <td class="number-column">{{qty}}</td>
+                                <td class="number-column">{{price}}</td>
+                                <td class="number-column">{{amount}}</td>
+                            </tr>
+                            {{/invoice.items}}
+                        </tbody>
+                    </table>
+                    <div class="total-row">
+                        <h1>Skupaj</h1>
+                        <h1>{{invoice.total}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-row">
+                <div class="wrapper-3" style="margin-bottom: 50px;">
+                    <div class="content">
+                         <h1>PAYMENTS</h1>
+                         <p>{{company.name}}</p>
+                         <p>{{company.address_line1}}</p>
+                         <p>{{company.address_line2}}</p>
+                    </div>
+                    <div class="content">
+                        <p>{{company.bank}}</p>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="content">
+                         <h1>QUESTIONS?</h1>
+                         <p>Email me at</p>
+                         <p><strong>{{company.email}}</strong></p>
+                        
+                    </div>
+                </div>
+                <div style="margin-top: 50px; margin-bottom: 20px;" class="wrapper">
+                    <div class="content comment">
+                        <p style="font-size: 10px;">{{invoice.comment}}</p>
+                        <p style="font-size: 10px;">{{company.comment}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
