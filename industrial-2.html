@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice {{invoice_number}}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #FAFAFA;
+            font-family: Poppins, Arial, sans-serif;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            margin: 10mm auto;
+            background-color: #EEE8DC;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+        }
+
+        .left-side {
+            width: 150px;
+            min-width: 150px;
+            border-right: 1px solid #10207E;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 150px 0;
+        }
+
+        .right-side {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-row {
+            border-bottom: 1px solid #10207E;
+            padding-top: 100px;
+            padding-bottom: 40px;
+            display: flex;
+        }
+
+        .middle-row {
+            flex: 1;
+        }
+
+        .bottom-row {
+            min-height: 250px;
+        }
+
+        .rotated-text {
+            transform: rotate(-90deg);
+            transform-origin: center center;
+            white-space: nowrap;
+            text-align: center;
+            font-size: 60px;
+            width: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #10207E;
+        }
+
+        @media print {
+            body { background: none; }
+            .page { margin: 0; box-shadow: none; }
+            @page { size: A4; margin: 0; }
+        }
+
+        .content {
+            color: #10207E;
+            line-height: 16px;
+        }
+
+        h1 {
+            font-size: 20px;
+            color: #10207E;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #10207E;
+            line-height: 16px;
+            margin: 0;
+        }
+
+        .important {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .due-date,
+        .status {
+            background-color: #10207E;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .wrapper {
+            width: 75%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .wrapper-2 {
+            width: 75%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: stretch;
+        }
+
+        .wrapper-3 {
+            margin: 0 12.5%;
+            display: flex;
+            flex-direction: row;
+            gap: 100px;
+            align-items: flex-end;
+        }
+
+        .line-items {
+            width: 100%;
+            margin: 20px 0;
+            color: #10207E;
+        }
+
+        .totals {
+            width: 100%;
+            margin-top: 20px;
+            color: #10207E;
+        }
+
+        .total-row,
+        .summary-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            border-bottom: 1px solid rgba(16, 32, 126, 0.25);
+            padding: 8px 0;
+        }
+
+        .total-row {
+            border-bottom: none;
+            margin-top: 10px;
+        }
+
+        .comment p {
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="left-side">
+            <div class="rotated-text">#{{invoice_number}}</div>
+            <div class="rotated-text">{{status}}</div>
+        </div>
+
+        <div class="right-side">
+            <div class="top-row">
+                <div class="wrapper">
+                    <div class="content">
+                        <h1>BILLED TO</h1>
+                        <p class="important">{{client_name}}</p>
+                        <p class="important">{{client_email}}</p>
+                        <p class="important">{{client_address}}</p>
+                    </div>
+
+                    <div class="content">
+                        <p class="important">Invoice Date: {{date}}</p>
+                        <p class="important due-date">Due date: {{due_date}}</p>
+                        <p class="important status">Status: {{status}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="middle-row">
+                <div class="wrapper-2">
+                    <div class="line-items">
+                        {{line_items}}
+                    </div>
+
+                    <div class="totals">
+                        <div class="summary-row">
+                            <p>Subtotal</p>
+                            <p>{{subtotal}} {{currency}}</p>
+                        </div>
+
+                        <div class="summary-row">
+                            <p>Tax {{tax_percent}}</p>
+                            <p>{{tax_amount}} {{currency}}</p>
+                        </div>
+
+                        <div class="summary-row">
+                            <p>Discount {{discount_percent}}</p>
+                            <p>{{discount_amount}} {{currency}}</p>
+                        </div>
+
+                        <div class="summary-row">
+                            <p>Fees</p>
+                            <p>{{fees}} {{currency}}</p>
+                        </div>
+
+                        <div class="total-row">
+                            <h1>Total</h1>
+                            <h1>{{total}} {{currency}}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-row">
+                <div class="wrapper-3" style="margin-bottom: 50px;">
+                    <div class="content">
+                        <h1>PAYMENTS</h1>
+                        <p>{{business_name}}</p>
+                        <p>{{business_address}}</p>
+                        <p>{{business_phone}}</p>
+                        <p>{{business_email}}</p>
+                    </div>
+
+                    <div class="content">
+                        <h1>CUSTOM FIELDS</h1>
+                        {{custom_fields}}
+                    </div>
+                </div>
+
+                <div class="wrapper">
+                    <div class="content">
+                        <h1>QUESTIONS?</h1>
+                        <p>Email me at</p>
+                        <p><strong>{{business_email}}</strong></p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 50px; margin-bottom: 20px;" class="wrapper">
+                    <div class="content comment">
+                        <p>{{notes}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
