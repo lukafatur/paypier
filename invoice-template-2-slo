@@ -4,74 +4,136 @@
     <meta charset="UTF-8">
     <title>A4 Document</title>
     <style>
-        body {
+        html, body {
             margin: 0;
             padding: 0;
-            background-color: #FAFAFA;
-            font-family: 'Poppins', sans-serif; /* Recommended to use a web-safe fallback */
+            background-color: #EEE8DC !important;
+            font-family: 'Poppins', Arial, sans-serif;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
-        /* Container for all pages to ensure proper background and setup */
-        .document-container {
-             background-color: #EEE8DC;
-        }
-
-        .page {
+        .document {
             width: 210mm;
-            /* Remove fixed height so it can grow or shrink */
-            min-height: 297mm; 
-            margin: 10mm auto;
+            min-height: 297mm;
+            margin: 0 auto; 
+            position: relative; 
             background-color: #EEE8DC;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            display: flex;
-            position: relative; /* For absolute positioning of left-side if needed */
-            box-sizing: border-box; /* Include padding in height calculations */
+            box-sizing: border-box;
         }
 
-        .left-side {
+        /* Sidebar styling */
+        .sidebar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
             width: 150px;
-            min-width: 150px;
             border-right: 1px solid #10207E;
+            box-sizing: border-box;
+        }
+
+        .sidebar-content {
+            position: sticky;
+            top: 0;
+            height: 100vh; 
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             padding: 150px 0;
-            /* Ensure the left side stretches the full height of the content */
-            align-self: stretch; 
+            box-sizing: border-box;
         }
 
-        .right-side {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            /* Allow content to determine height */
+        .main-content {
+            margin-left: 150px; 
+            padding-bottom: 50px;
+            min-height: 100%;
+            box-sizing: border-box;
         }
 
-        .top-row {
-            border-bottom: 1px solid #10207E;
-            padding-top: 100px;
-            padding-bottom: 40px;
-            display: flex;
-            column-gap: 100px;
-            /* Prevent breaking inside the header */
-            page-break-inside: avoid;
-        }
+        @media print {
+            @page { 
+                size: A4; 
+                margin: 0; /* Keeps the background full-bleed */
+            }
+            body { 
+                background-color: #EEE8DC !important; 
+            }
+            .document {
+                width: 100%;
+                margin: 0;
+                min-height: auto;
+                display: block; 
+            }
+            
+            /* Sidebar perfectly repeats on EVERY printed page */
+            .sidebar {
+                position: fixed; 
+                height: 100%; 
+            }
+            .sidebar-content {
+                position: absolute; 
+                height: 100%; 
+            }
 
-        .middle-row {
-            flex: 1;
-            padding-bottom: 20px; /* Add some space before the bottom row */
-        }
+            .main-content {
+                margin-left: 150px;
+                display: block !important; /* Force block to allow normal page flow */
+                padding-top: 40px; /* Space from top of page so text doesn't hit edge */
+            }
 
-        .bottom-row {
-            min-height: 250px;
-            /* Ensure footer sections don't get awkwardly split */
-            page-break-inside: avoid;
-            margin-top: auto; /* Push to bottom if space allows */
+            /* 1. Kill Flexbox in Print Flow (Root cause of overlapping) */
+            .top-row, .middle-row, .bottom-row, .wrapper-2 {
+                display: block !important;
+            }
+
+            /* 2. Convert Flex Rows to Table Layouts for safe side-by-side pagination */
+            .wrapper, .wrapper-3, .total-row {
+                display: table !important;
+                width: 80% !important;
+                margin: 0 auto !important;
+            }
+            .wrapper-3 { margin: 0 10% !important; }
+
+            .wrapper > div, .wrapper-3 > div, .total-row > h1 {
+                display: table-cell !important;
+                vertical-align: top !important;
+            }
+            
+            /* Mimic original alignments lost from removing flexbox */
+            .top-row .wrapper > div:last-child { text-align: right !important; }
+            .total-row > h1:last-child { text-align: right !important; }
+            .wrapper-3 > div:first-child { padding-right: 100px !important; }
+
+            /* 3. Bulletproof Table Pagination */
+            .invoice-table { 
+                page-break-inside: auto !important; 
+                border-collapse: separate !important; /* Prevents border overlap bug */
+                border-spacing: 0 !important;
+            }
+            .invoice-table thead { 
+                display: table-row-group !important; /* Disables repeating header which causes overlap in Chrome */
+            }
+            .invoice-table tr { 
+                page-break-inside: avoid !important; 
+                break-inside: avoid !important;
+                page-break-after: auto !important; 
+            }
+
+            /* 4. Prevent large section splitting */
+            .top-row, .total-row { 
+                page-break-inside: avoid !important; 
+                break-inside: avoid !important;
+            }
+            .bottom-row {
+                page-break-inside: avoid !important; 
+                break-inside: avoid !important;
+                padding-top: 20px !important;
+            }
         }
 
         .rotated-text {
             transform: rotate(-90deg);
-            transform-origin: center center;
             white-space: nowrap;
             text-align: center;
             font-size: 60px;
@@ -80,52 +142,6 @@
             align-items: center;
             justify-content: center;
             color: #10207E;
-        }
-
-        /* Essential Print Styles for Pagination */
-        @media print {
-            body { 
-                background: none; 
-                -webkit-print-color-adjust: exact; /* Force background colors to print */
-                print-color-adjust: exact;
-            }
-            .document-container {
-                 background-color: transparent;
-            }
-            .page { 
-                margin: 0; 
-                box-shadow: none; 
-                min-height: auto; /* Let content dictate height on print */
-                height: auto;
-                background-color: transparent;
-                display: block; /* Switch away from flexbox for better page breaking */
-            }
-            
-            /* Restructure layout for print to avoid flexbox issues spanning pages */
-            .left-side {
-                position: fixed; /* Keep on every page */
-                left: 0;
-                top: 0;
-                bottom: 0;
-                height: 100vh; /* Viewport height ensures it prints on every page */
-                z-index: 10;
-            }
-
-            .right-side {
-                margin-left: 150px; /* Offset content by the width of the left side */
-                display: block;
-            }
-
-            @page { 
-                size: A4; 
-                margin: 0; 
-            }
-
-            /* Explicitly allow page breaks inside the table body but not rows */
-            .invoice-table { page-break-inside: auto; }
-            .invoice-table tr { page-break-inside: avoid; page-break-after: auto; }
-            .invoice-table thead { display: table-header-group; } /* Repeat header on new pages */
-            .invoice-table tfoot { display: table-footer-group; }
         }
 
         .content {
@@ -179,6 +195,7 @@
         .invoice-table td {
             padding: 15px 10px;
             font-size: 14px;
+            vertical-align: top;
         }
 
         .invoice-table tbody tr:last-child td {
@@ -190,16 +207,16 @@
         }
 
         .wrapper {
-            width: 75%;
+            width: 80%;
             margin: 0 auto;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
         }
 
         .wrapper-2 {
-            width: 75%;
+            width: 80%;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -208,11 +225,17 @@
         }
 
         .wrapper-3 {
-            margin: 0 12.5%;
+            margin: 0 10%;
             display: flex;
             flex-direction: row;
             gap: 100px;
-            align-items: flex-end;
+            align-items: flex-start;
+        }
+
+        .top-row {
+            border-bottom: 1px solid #10207E;
+            padding-top: 100px;
+            padding-bottom: 40px;
         }
 
         .total-row {
@@ -221,7 +244,11 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            page-break-inside: avoid; /* Keep total with the table if possible */
+            padding: 20px 0;
+        }
+
+        .bottom-row {
+            padding-top: 50px;
         }
 
         .comment {
@@ -230,86 +257,94 @@
     </style>
 </head>
 <body>
-    <div class="document-container">
-        <div class="page">
-            <div class="left-side">
+    <div class="document">
+        
+        <!-- Left Sidebar that repeats on Print -->
+        <div class="sidebar">
+            <div class="sidebar-content">
                 <div class="rotated-text">#{{invoice.number}}</div>
                 <div class="rotated-text">{{invoice.type}}</div>
             </div>
-            <div class="right-side">
-                <div class="top-row">
-                    <div class="wrapper">
-                        <div class="content">
-                             <h1>PREJEMNIK</h1>
-                             <p class="important">{{client.name}}</p>
-                             <p class="important">{{client.address_line1}}</p>
-                             <p class="important">{{client.address_line2}}</p>
-                            <p class="important">{{client.vat_number}}</p>
-                        </div>
-                    
-                        <div class="content">
-                            <p class="important">Datum računa: {{invoice.date}}</p>
-                            <p class="important due-date">Veljavno do: {{invoice.due_date}}</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="middle-row">
-                    <div class="wrapper-2">
-                        <table class="invoice-table">
-                            <thead>
-                                <tr>
-                                    <th style="width: 50%">Opis</th>
-                                    <th class="number-column">Količina</th>
-                                    <th class="number-column">Cena</th>
-                                    <th class="number-column">Znesek</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{#invoice.items}}
-                                <tr>
-                                    <td>{{description}}</td>
-                                    <td class="number-column">{{qty}}</td>
-                                    <td class="number-column">{{price}}</td>
-                                    <td class="number-column">{{amount}}</td>
-                                </tr>
-                                {{/invoice.items}}
-                            </tbody>
-                        </table>
-                        <div class="total-row">
-                            <h1>Skupaj</h1>
-                            <h1>{{invoice.total}}</h1>
-                        </div>
-                    </div>
-                </div>
+        </div>
 
-                <div class="bottom-row">
-                    <div class="wrapper-3" style="margin-bottom: 50px;">
-                        <div class="content">
-                             <h1>PLAČILA</h1>
-                             <p>{{company.name}}</p>
-                             <p>{{company.address_line1}}</p>
-                             <p>{{company.address_line2}}</p>
-                        </div>
-                        <div class="content">
-                            <p>{{company.bank}}</p>
-                        </div>
+        <!-- Main Content Area that safely breaks across pages -->
+        <div class="main-content">
+            <div class="top-row">
+                <div class="wrapper">
+                    <div class="content">
+                         <h1>PREJEMNIK</h1>
+                         <p class="important">{{client.name}}</p>
+                         <p class="important">{{client.address_line1}}</p>
+                         <p class="important">{{client.address_line2}}</p>
+                         <p class="important">{{client.vat_number}}</p>
                     </div>
-                    <div class="wrapper">
-                        <div class="content">
-                             <h1>VPRAŠANJA?</h1>
-                             <p>Email me at</p>
-                             <p><strong>{{company.email}}</strong></p>
-                        </div>
-                    </div>
-                    <div style="margin-top: 50px; margin-bottom: 20px;" class="wrapper">
-                        <div class="content comment">
-                            <p style="font-size: 10px;">{{invoice.comment}}</p>
-                            <p style="font-size: 10px;">{{company.comment}}</p>
-                        </div>
+                
+                    <div class="content" style="text-align: right;">
+                        <p class="important">Datum računa: {{invoice.date}}</p>
+                        <p class="important due-date">Veljavno do: {{invoice.due_date}}</p>
                     </div>
                 </div>
             </div>
+            
+            <div class="middle-row">
+                <div class="wrapper-2">
+                    <table class="invoice-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50%">Opis</th>
+                                <th class="number-column">Količina</th>
+                                <th class="number-column">Cena</th>
+                                <th class="number-column">Znesek</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#invoice.items}}
+                            <tr>
+                                <td>{{description}}</td>
+                                <td class="number-column">{{qty}}</td>
+                                <td class="number-column">{{price}}</td>
+                                <td class="number-column">{{amount}}</td>
+                            </tr>
+                            {{/invoice.items}}
+                        </tbody>
+                    </table>
+                    <div class="total-row">
+                        <h1>Skupaj</h1>
+                        <h1>{{invoice.total}}</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-row">
+                <div class="wrapper-3" style="margin-bottom: 50px;">
+                    <div class="content">
+                         <h1>PLAČILA</h1>
+                         <p>{{company.name}}</p>
+                         <p>{{company.address_line1}}</p>
+                         <p>{{company.address_line2}}</p>
+                    </div>
+                    <div class="content">
+                        <br>
+                        <p>{{company.bank}}</p>
+                    </div>
+                </div>
+                
+                <div class="wrapper">
+                    <div class="content">
+                         <h1>VPRAŠANJA?</h1>
+                         <p>Email me at</p>
+                         <p><strong>{{company.email}}</strong></p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 50px; margin-bottom: 20px;" class="wrapper">
+                    <div class="content comment">
+                        <p style="font-size: 10px;">{{invoice.comment}}</p>
+                        <p style="font-size: 10px; margin-top: 5px;">{{company.comment}}</p>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 </body>
