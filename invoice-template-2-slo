@@ -105,14 +105,23 @@
             .total-row > h1:last-child { text-align: right !important; }
             .wrapper-3 > div:first-child { padding-right: 100px !important; }
 
-            /* 3. Bulletproof Table Pagination */
+            /* 3. Bulletproof Table Pagination and Repeating Headers */
+            .top-row {
+                padding-bottom: 0px !important; /* Remove bottom padding to balance header space on page 1 */
+            }
             .invoice-table { 
+                margin-top: 0px !important; /* Remove top margin to balance header space on page 1 */
                 page-break-inside: auto !important; 
-                border-collapse: separate !important; /* Prevents border overlap bug */
+                border-collapse: separate !important; 
                 border-spacing: 0 !important;
             }
             .invoice-table thead { 
-                display: table-row-group !important; /* Disables repeating header which causes overlap in Chrome */
+                display: table-header-group !important; /* Forces column titles to repeat on new pages */
+            }
+            .invoice-table th {
+                padding-top: 100px !important; /* Acts as the missing top margin for the repeated header on Page 2 */
+                background-color: #EEE8DC !important; /* Solid background prevents Chrome's text overlap bug */
+                border-bottom: 1px solid #10207E !important;
             }
             .invoice-table tr { 
                 page-break-inside: avoid !important; 
@@ -128,7 +137,7 @@
             .bottom-row {
                 page-break-inside: avoid !important; 
                 break-inside: avoid !important;
-                padding-top: 20px !important;
+                padding-top: 100px !important; /* Top margin in case PLAČILA section gets pushed to Page 2 */
             }
         }
 
