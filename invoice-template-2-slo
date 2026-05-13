@@ -316,6 +316,13 @@
                             </tr>
                             {{/invoice.items}}
                         </tbody>
+                        
+                        <!-- Invisible footer that repeats on every page to create a safe bottom margin -->
+                        <tfoot class="print-spacer">
+                            <tr>
+                                <td colspan="4"></td>
+                            </tr>
+                        </tfoot>
                     </table>
                     <div class="total-row">
                         <h1>Skupaj</h1>
